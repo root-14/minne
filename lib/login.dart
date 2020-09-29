@@ -10,7 +10,7 @@ class _loginPageState extends State<loginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('yo yo yo'),),
-      body: Text('yo bro its just a text relax'),
+      body: Text('yo bro its just a text relaxa'),
     );
   }
 }
