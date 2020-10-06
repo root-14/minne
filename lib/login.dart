@@ -11,6 +11,8 @@ class _loginState extends State<login> {
   final List<userModel> users = [
     userModel("1", "lorem", "abc@mail.com", "https://picsum.photos/250?image=9",
         123, 321),
+        userModel("2", "ipsum", "def@mail.com", "https://picsum.photos/250",
+        123, 321),
   ];
 
   Widget buildUsersCard(BuildContext context, int index) {
@@ -58,7 +60,7 @@ class _loginState extends State<login> {
             buildUsersCard(context, index),
       ),
       appBar: AppBar(
-        title: Center(child: Text('Awesome AppBar')),
+        title: Center(child: Text('Katıldığım Eventler')),
         flexibleSpace: Container(
           decoration: new BoxDecoration(
             gradient: new LinearGradient(
@@ -79,8 +81,8 @@ class _loginState extends State<login> {
           width: 60,
           height: 60,
           child: Icon(
-            Icons.add,
-            size: 40,
+            Icons.add_location,
+            size: 35,
           ),
           decoration: BoxDecoration(
               shape: BoxShape.circle,
@@ -92,6 +94,7 @@ class _loginState extends State<login> {
               )),
         ),
       ),
+      drawer: Drawer(),
     );
   }
 }
