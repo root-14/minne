@@ -21,4 +21,6 @@ class Styles {
     fontStyle: FontStyle.italic,
     fontWeight: FontWeight.normal,
   );
+
+  static const innerMinorText=TextStyle(color: Color.fromRGBO(143, 148, 251, 1));
 }

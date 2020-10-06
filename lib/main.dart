@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:minne/login.dart';
+import 'package:minne/loginPage.dart';
 import 'styles.dart';
 import 'package:flutter/services.dart';
+import 'slidePageAnim.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(
@@ -194,6 +195,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ],
                 ),
               ),
+              SizedBox(height: 200),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: _buildPageIndicator(),
@@ -246,7 +248,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         20)), //TODO try to make bottom sheet much more curved
                 color: Colors.white,
               ),
-              height: 75.0,
+              height: 50.0,
               width: double.infinity,
               //color: Colors.white,
               child: GestureDetector(
@@ -255,15 +257,12 @@ class _MyHomePageState extends State<MyHomePage> {
                     EnterExitRoute(
                         exitPage: MyHomePage(), enterPage: loginPage())),
                 child: Center(
-                  child: Padding(
-                    padding: EdgeInsets.only(bottom: 30.0),
-                    child: Text(
-                      'get started',
-                      style: TextStyle(
-                        color: Color(0xFF5B16D0),
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.bold,
-                      ),
+                  child: Text(
+                    'get started',
+                    style: TextStyle(
+                      color: Color(0xFF5B16D0),
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
@@ -273,7 +272,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-
+/*
 class EnterExitRoute extends PageRouteBuilder {
   final Widget enterPage;
   final Widget exitPage;
@@ -311,3 +310,4 @@ class EnterExitRoute extends PageRouteBuilder {
           ),
         );
 }
+*/
