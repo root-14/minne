@@ -15,7 +15,7 @@ class _loginState extends State<login> {
 
   Widget buildUsersCard(BuildContext context, int index) {
     final user = users[index];
-    return new Container(
+    return Container(
       child: Card(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -51,11 +51,46 @@ class _loginState extends State<login> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: new ListView.builder(
+    return Scaffold(
+      body: ListView.builder(
         itemCount: users.length,
         itemBuilder: (BuildContext context, int index) =>
             buildUsersCard(context, index),
+      ),
+      appBar: AppBar(
+        title: Center(child: Text('Awesome AppBar')),
+        flexibleSpace: Container(
+          decoration: new BoxDecoration(
+            gradient: new LinearGradient(
+                colors: [
+                  const Color(0xFF3366FF),
+                  const Color(0xFF00CCFF),
+                ],
+                begin: const FractionalOffset(0.0, 0.0),
+                end: const FractionalOffset(1.0, 0.0),
+                stops: [0.0, 1.0],
+                tileMode: TileMode.clamp),
+          ),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: Container(
+          width: 60,
+          height: 60,
+          child: Icon(
+            Icons.add,
+            size: 40,
+          ),
+          decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              gradient: LinearGradient(
+                colors: [
+                  const Color(0xFF3366FF),
+                  const Color(0xFF00CCFF),
+                ],
+              )),
+        ),
       ),
     );
   }
