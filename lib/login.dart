@@ -19,34 +19,39 @@ class _loginState extends State<login> {
 
   Widget buildUsersCard(BuildContext context, int index) {
     final user = users[index];
-    return Container(
-      child: Card(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: <Widget>[
-              Row(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(8.0),
-                    child:
-                        Image.network(user.userPicUrl, height: 50, width: 50),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        Text(user.userName),
-                        Text(
-                          user.emailAdress,
-                          style: Styles.innerMinorGrey,
-                        ),
-                      ],
+    return InkWell(
+      onTap: (){
+        print('${user.userName} tıklandı');
+      },
+          child: Container(
+        child: Card(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: <Widget>[
+                Row(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(8.0),
+                      child:
+                          Image.network(user.userPicUrl, height: 50, width: 50),
                     ),
-                  )
-                ],
-              )
-            ],
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          Text(user.userName),
+                          Text(
+                            user.emailAdress,
+                            style: Styles.innerMinorGrey,
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ),
