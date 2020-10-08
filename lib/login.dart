@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:minne/model.dart';
+import 'package:minne/userModel.dart';
 import 'package:minne/styles.dart';
 
 class login extends StatefulWidget {

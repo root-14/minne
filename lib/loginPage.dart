@@ -99,25 +99,6 @@ class _loginPageState extends State<loginPage> {
                       SizedBox(
                         height: 30,
                       ),
-                      /*Container(
-                        height: 50,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            gradient: LinearGradient(colors: [
-                              Color(0xFF3594DD),
-                              Color(0xFF4563DB),
-                              Color(0xFF5036D5),
-                              Color(0xFF5B16D0),
-                            ])),
-                        child: Center(
-                          child: Text(
-                            "Giriş yap",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ),*/
                       RaisedButton(
                         //for gradient
                         onPressed: () {

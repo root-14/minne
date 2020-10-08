@@ -1,4 +1,4 @@
-package com.example.minne
+package com.awake.eventTrack.minne
 
 import io.flutter.embedding.android.FlutterActivity
 

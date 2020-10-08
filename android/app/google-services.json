@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1080127458133",
+    "firebase_url": "https://minne-map-loc.firebaseio.com",
+    "project_id": "minne-map-loc",
+    "storage_bucket": "minne-map-loc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1080127458133:android:12f83bd506a3c215a3fddc",
+        "android_client_info": {
+          "package_name": "com.awake.eventTrack.minne"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1080127458133-jg9g2a0kimq6pmkp297frp5usvg7lpi0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCh_cwbdmBzELznHqi9PCi1uA5HBwfFqxA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1080127458133-jg9g2a0kimq6pmkp297frp5usvg7lpi0.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1080127458133-n4jbubc0caa2el00han4vdatjc68brs4.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.awake.eventTrack.minne"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
