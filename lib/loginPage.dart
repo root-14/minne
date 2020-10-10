@@ -127,13 +127,16 @@ class _loginPageState extends State<loginPage> {
                       RaisedButton(
                         //for gradient
                         onPressed: () {
-                          print('giriş yap tıklandı');
+                          //print(   'giriş yap tıklayan kullanıcı id : ${_auth.currentUser.uid}');
                           if (_formKey.currentState.validate()) {
                             _signIn();
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => login()));
+
+                            if (  ) {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => login()));
+                            }
                           }
                         },
                         shape: RoundedRectangleBorder(
