@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:minne/userModel.dart';
 import 'package:minne/styles.dart';
@@ -19,11 +20,12 @@ class _loginState extends State<login> {
 
   Widget buildUsersCard(BuildContext context, int index) {
     final user = users[index];
+
     return InkWell(
-      onTap: (){
+      onTap: () {
         print('${user.userName} tıklandı');
       },
-          child: Container(
+      child: Container(
         child: Card(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -60,6 +62,7 @@ class _loginState extends State<login> {
 
   @override
   Widget build(BuildContext context) {
+    final FirebaseAuth _auth = FirebaseAuth.instance;
     return Scaffold(
       body: ListView.builder(
         itemCount: users.length,
@@ -114,35 +117,42 @@ class _loginState extends State<login> {
                     CircleAvatar(
                       backgroundImage: NetworkImage(
                           'https://static.wikia.nocookie.net/ortadunya/images/1/12/Gandalf2.jpg/revision/latest?cb=20191223114037'),
-                          radius: 43,
-                    
+                      radius: 43,
                     ),
                     Padding(
                       padding: const EdgeInsets.all(12.0),
-                      child: Text(
-                        'YOUR_NAME_HERE',
-                        style: Styles.innerTitle
-                      ),
+                      child: Text('YOUR_NAME_HERE', style: Styles.innerTitle),
                     ),
                   ],
                 )),
             ListTile(
               leading: Icon(Icons.message),
               title: Text(
-                'Mesajlar',
+                'user id',
               ),
+              onTap: () {
+                print('giriş yapan kullanıcı adı ${_auth.currentUser.uid}');
+              },
             ),
             ListTile(
               leading: Icon(Icons.account_circle),
               title: Text(
-                'Profilim',
+                'e-mail adresi',
               ),
+              onTap: () {
+                print(
+                    'giriş yapan kullanıcı e-mail ${_auth.currentUser.email}');
+              },
             ),
             ListTile(
               leading: Icon(Icons.settings),
               title: Text(
-                'Ayarlar',
+                'sign-out',
               ),
+              onTap: () {
+                print(
+                    'çıkış yapılan kullanıcı ${_auth.currentUser.uid} ${_auth.signOut()}');
+              },
             ),
           ],
         ),

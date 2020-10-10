@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:minne/auth_service.dart';
+import 'package:minne/login.dart';
 import 'package:minne/loginPage.dart';
 
 class registerPage extends StatefulWidget {
@@ -195,12 +196,10 @@ class _registerPageState extends State<registerPage> {
               password: _passwordController0.text.toString().trim()))
           .user;
 
-      Navigator.of(context).pop();
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => loginPage()));
+      _auth.signOut(); //kullanıcı kayıt olunca firebase doğrudan oturum açıyor
 
-      final snackBar = SnackBar(content: Text('kullanıcı başarıyla oluşrultu'));
-      Scaffold.of(context).showSnackBar(snackBar);
+      Navigator.push(context,
+          MaterialPageRoute(builder: (BuildContext context) => loginPage()));
     } on FirebaseAuthException catch (e) {
       errorHandle = e.code;
       print('error kodu :  $errorHandle');

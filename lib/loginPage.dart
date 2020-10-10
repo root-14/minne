@@ -16,7 +16,6 @@ class _loginPageState extends State<loginPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -85,6 +84,7 @@ class _loginPageState extends State<loginPage> {
                                         bottom: BorderSide(
                                             color: Colors.grey[100]))),
                                 child: TextFormField(
+                                  keyboardType: TextInputType.emailAddress,
                                   controller: _emailController,
                                   validator: (String val) {
                                     if (val.isEmpty) {
@@ -102,6 +102,7 @@ class _loginPageState extends State<loginPage> {
                               Container(
                                 padding: EdgeInsets.all(8.0),
                                 child: TextFormField(
+                                  obscureText: true,
                                   controller: _passwordController,
                                   validator: (String val) {
                                     if (val.isEmpty) {
@@ -128,6 +129,7 @@ class _loginPageState extends State<loginPage> {
                         onPressed: () {
                           print('giriş yap tıklandı');
                           if (_formKey.currentState.validate()) {
+                            _signIn();
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -183,16 +185,11 @@ class _loginPageState extends State<loginPage> {
                           style: Styles.innerMinorText,
                           recognizer: TapGestureRecognizer()
                             ..onTap = () async {
-                              print('giriş yap tıklandı ${_auth.currentUser.uid}');
-                            //WORK HERE
-                              if (_auth.currentUser != null) {
-                                Navigator.push(
+                              Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => registerPage(),
-                                  ),
-                                );
-                              }
+                                      builder: (BuildContext context) =>
+                                          registerPage()));
                             },
                         ),
                       ),
@@ -214,13 +211,9 @@ class _loginPageState extends State<loginPage> {
 
       print('user id : ${_auth.currentUser.uid}');
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
-      }
+      print('hata kodu $e');
     } catch (e) {
-      print(e);
+      print('hataa kodu  $e');
     }
   }
 }
