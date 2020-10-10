@@ -1,4 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:minne/auth_service.dart';
+import 'package:minne/loginPage.dart';
 
 class registerPage extends StatefulWidget {
   @override
@@ -6,6 +9,14 @@ class registerPage extends StatefulWidget {
 }
 
 class _registerPageState extends State<registerPage> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController0 = TextEditingController();
+  TextEditingController _passwordController1 = TextEditingController();
+  String passValidation;
+  String errorHandle = null;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,64 +73,108 @@ class _registerPageState extends State<registerPage> {
                                   blurRadius: 20.0,
                                   offset: Offset(0, 10))
                             ]),
-                        child: Column(
-                          children: <Widget>[
-                            Container(
-                              padding: EdgeInsets.all(8.0),
-                              decoration: BoxDecoration(
-                                  border: Border(
-                                      bottom:
-                                          BorderSide(color: Colors.grey[100]))),
-                              child: TextField(
-                                decoration: InputDecoration(
+                        child: Form(
+                          autovalidateMode: AutovalidateMode.always,
+                          key: _formKey,
+                          child: Column(
+                            children: <Widget>[
+                              Container(
+                                padding: EdgeInsets.all(8.0),
+                                decoration: BoxDecoration(
+                                    border: Border(
+                                        bottom: BorderSide(
+                                            color: Colors.grey[100]))),
+                                child: TextFormField(
+                                  keyboardType: TextInputType.emailAddress,
+                                  controller: _emailController,
+                                  validator: (String val) {
+                                    if (val.isEmpty || !val.contains('@')) {
+                                      return 'e-mail geçersiz';
+                                    }
+                                  },
+                                  decoration: InputDecoration(
                                     border: InputBorder.none,
-                                    hintText: "Email adresinizi girin",
-                                    hintStyle:
-                                        TextStyle(color: Colors.grey[400])),
+                                    labelText: "Email adresinizi girin",
+                                    labelStyle:
+                                        TextStyle(color: Colors.grey[400]),
+                                  ),
+                                ),
                               ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.all(8.0),
-                              child: TextField(
-                                decoration: InputDecoration(
+                              Container(
+                                padding: EdgeInsets.all(8.0),
+                                child: TextFormField(
+                                  validator: (String val) {
+                                    passValidation = val;
+                                    if (val.isEmpty || val.length < 7) {
+                                      return 'en az 7 karakter olmalı';
+                                    }
+                                  },
+                                  controller: _passwordController0,
+                                  obscureText: true,
+                                  decoration: InputDecoration(
                                     border: InputBorder.none,
-                                    hintText: "Şifreyi girin",
-                                    hintStyle:
-                                        TextStyle(color: Colors.grey[400])),
+                                    labelText: "Şifrenizi girin",
+                                    labelStyle:
+                                        TextStyle(color: Colors.grey[400]),
+                                  ),
+                                ),
                               ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.all(8.0),
-                              child: TextField(
-                                decoration: InputDecoration(
+                              Container(
+                                padding: EdgeInsets.all(8.0),
+                                child: TextFormField(
+                                  obscureText: true,
+                                  validator: (String val) {
+                                    if (val.isEmpty || val.length < 7) {
+                                      return 'en az 7 karakter olmalı';
+                                    }
+
+                                    if (passValidation != val) {
+                                      return 'İki şifre örtüşmüyor.';
+                                    }
+                                  },
+                                  controller: _passwordController1,
+                                  decoration: InputDecoration(
                                     border: InputBorder.none,
-                                    hintText: "Şifreyi tekrar girin",
-                                    hintStyle:
-                                        TextStyle(color: Colors.grey[400])),
+                                    labelText: "Şifrenizi tekrar girin",
+                                    labelStyle:
+                                        TextStyle(color: Colors.grey[400]),
+                                  ),
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                       SizedBox(
                         height: 30,
                       ),
-                      Container(
-                        height: 50,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            gradient: LinearGradient(colors: [
-                              Color(0xFF3594DD),
-                              Color(0xFF4563DB),
-                              Color(0xFF5036D5),
-                              Color(0xFF5B16D0),
-                            ])),
-                        child: Center(
-                          child: Text(
-                            "Kayıt ol",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
+                      GestureDetector(
+                        onTap: () async {
+                          print('kayıt ol tıklandı');
+
+                          if (_formKey.currentState.validate()) {
+                            _registerAccount();
+
+                            print('kayıt ol fonksiyonu çalıştı');
+                          }
+                        },
+                        child: Container(
+                          height: 50,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              gradient: LinearGradient(colors: [
+                                Color(0xFF3594DD),
+                                Color(0xFF4563DB),
+                                Color(0xFF5036D5),
+                                Color(0xFF5B16D0),
+                              ])),
+                          child: Center(
+                            child: Text(
+                              "Kayıt ol",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ),
                           ),
                         ),
                       ),
@@ -131,4 +186,29 @@ class _registerPageState extends State<registerPage> {
           ),
         ));
   }
+
+  void _registerAccount() async {
+    try {
+      errorHandle = null;
+      final User user = (await _auth.createUserWithEmailAndPassword(
+              email: _emailController.text.toString().trim(),
+              password: _passwordController0.text.toString().trim()))
+          .user;
+
+      Navigator.of(context).pop();
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => loginPage()));
+
+      final snackBar = SnackBar(content: Text('kullanıcı başarıyla oluşrultu'));
+      Scaffold.of(context).showSnackBar(snackBar);
+    } on FirebaseAuthException catch (e) {
+      errorHandle = e.code;
+      print('error kodu :  $errorHandle');
+    } catch (e) {
+      print(e);
+      errorHandle = e.toString();
+    }
+  }
+  //TODO email allready taken- bad password eror handling
+//bad formatted
 }

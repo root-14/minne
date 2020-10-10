@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:minne/login.dart';
@@ -11,6 +12,12 @@ class loginPage extends StatefulWidget {
 }
 
 class _loginPageState extends State<loginPage> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,33 +74,50 @@ class _loginPageState extends State<loginPage> {
                                   blurRadius: 20.0,
                                   offset: Offset(0, 10))
                             ]),
-                        child: Column(
-                          children: <Widget>[
-                            Container(
-                              padding: EdgeInsets.all(8.0),
-                              decoration: BoxDecoration(
-                                  border: Border(
-                                      bottom:
-                                          BorderSide(color: Colors.grey[100]))),
-                              child: TextField(
-                                decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    hintText: "Email adresinizi girin",
-                                    hintStyle:
-                                        TextStyle(color: Colors.grey[400])),
+                        child: Form(
+                          key: _formKey,
+                          child: Column(
+                            children: <Widget>[
+                              Container(
+                                padding: EdgeInsets.all(8.0),
+                                decoration: BoxDecoration(
+                                    border: Border(
+                                        bottom: BorderSide(
+                                            color: Colors.grey[100]))),
+                                child: TextFormField(
+                                  controller: _emailController,
+                                  validator: (String val) {
+                                    if (val.isEmpty) {
+                                      return 'Bu alan boş bırakılamaz';
+                                    }
+                                    return null;
+                                  },
+                                  decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: "Email adresinizi girin",
+                                      hintStyle:
+                                          TextStyle(color: Colors.grey[400])),
+                                ),
                               ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.all(8.0),
-                              child: TextField(
-                                decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    hintText: "Şifreyi girin",
-                                    hintStyle:
-                                        TextStyle(color: Colors.grey[400])),
-                              ),
-                            )
-                          ],
+                              Container(
+                                padding: EdgeInsets.all(8.0),
+                                child: TextFormField(
+                                  controller: _passwordController,
+                                  validator: (String val) {
+                                    if (val.isEmpty) {
+                                      return 'Bu alan boş bırakılamaz';
+                                    }
+                                    return null;
+                                  },
+                                  decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: "Şifreyi girin",
+                                      hintStyle:
+                                          TextStyle(color: Colors.grey[400])),
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       ),
                       SizedBox(
@@ -103,8 +127,12 @@ class _loginPageState extends State<loginPage> {
                         //for gradient
                         onPressed: () {
                           print('giriş yap tıklandı');
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => login()));
+                          if (_formKey.currentState.validate()) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => login()));
+                          }
                         },
                         shape: RoundedRectangleBorder(
                             borderRadius:
@@ -154,14 +182,17 @@ class _loginPageState extends State<loginPage> {
                           text: 'Kayıt',
                           style: Styles.innerMinorText,
                           recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              print('register tıklandı');
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => registerPage(),
-                                ),
-                              );
+                            ..onTap = () async {
+                              print('giriş yap tıklandı ${_auth.currentUser.uid}');
+                            //WORK HERE
+                              if (_auth.currentUser != null) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => registerPage(),
+                                  ),
+                                );
+                              }
                             },
                         ),
                       ),
@@ -172,5 +203,24 @@ class _loginPageState extends State<loginPage> {
             ),
           ),
         ));
+  }
+
+  void _signIn() async {
+    try {
+      final User user = (await _auth.signInWithEmailAndPassword(
+              email: _emailController.text.toString().trim(),
+              password: _passwordController.text.toString().trim()))
+          .user;
+
+      print('user id : ${_auth.currentUser.uid}');
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        print('The password provided is too weak.');
+      } else if (e.code == 'email-already-in-use') {
+        print('The account already exists for that email.');
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 }
