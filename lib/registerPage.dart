@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:minne/auth_service.dart';
 import 'package:minne/login.dart';
 import 'package:minne/loginPage.dart';
 

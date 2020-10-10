@@ -131,12 +131,11 @@ class _loginPageState extends State<loginPage> {
                           if (_formKey.currentState.validate()) {
                             _signIn();
 
-                            if (  ) {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => login()));
-                            }
+                            //TODO WORK TO HERE
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => login()));
                           }
                         },
                         shape: RoundedRectangleBorder(
