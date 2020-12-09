@@ -209,4 +209,5 @@ class _registerPageState extends State<registerPage> {
   }
   //TODO email allready taken- bad password eror handling
 //bad formatted
+//invalid mail error handle edilecek
 }
